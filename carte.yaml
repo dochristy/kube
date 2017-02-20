@@ -1,0 +1,15 @@
+apiVersion: "v1"
+kind: Pod
+metadata:
+  name: carte
+  labels:
+    name: carte
+    app: demo
+spec:
+  containers:
+    - name: carte
+      image: tobilg/pentaho-di
+      ports:
+        - containerPort: 8082
+          name: carte
+          protocol: TCP
