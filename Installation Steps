@@ -18,4 +18,5 @@ chmod +x kops kubectl
 mv kops kubectl /usr/local/bin
 sudo apt-get install python-pip
 sudo pip install awscli
-
+AKIAI6G3UYUNUMX7RZIQ
+P67oO/zpV5jQ13DxgIYKluid6ZzLag1GGj8T+1
