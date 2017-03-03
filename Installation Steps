@@ -20,3 +20,40 @@ sudo apt-get install python-pip
 sudo pip install awscli
 AKIAI6G3UYUNUMX7RZIQ
 P67oO/zpV5jQ13DxgIYKluid6ZzLag1GGj8T+1
+aws configure
+ssh-keygen -f .ssh/id_rsa
+kops create cluster --name=kubernetes.myc110.bid --state=s3://kops-chris-c110 --zones=us-east-1a --node-count=3 --node-size=t2.medium --master-size=t2.medium --dns-zone=kubernetes.myc110.bid
+
+FROM java:jre
+
+MAINTAINER Chris D
+
+ENV PDI_RELEASE=7.0 \
+    PDI_VERSION=7.0.0.0-25 \
+    PDI_HOME=/opt/pentaho-di \
+    KETTLE_HOME=/pentaho-di
+
+COPY pdi-ce-7.0.0.0-25.zip /tmp
+
+RUN unzip -q //tmp/pdi-ce-${PDI_VERSION}.zip -d $PDI_HOME && \
+    rm //tmp/pdi-ce-${PDI_VERSION}.zip
+
+ENV PATH=$PDI_HOME/data-integration:$PATH
+
+EXPOSE 8080
+
+RUN mkdir -p $KETTLE_HOME/.kettle /docker-entrypoint.d /templates /pentaho-di/xbi_repo /pentaho-di/carte
+
+COPY repositories.xml $KETTLE_HOME/.kettle
+
+COPY carte-config-master-9090.xml /pentaho-di/carte
+
+COPY carte-config-slave-8080.xml /pentaho-di/carte
+
+COPY carte-config-slave-8282.xml /pentaho-di/carte
+
+COPY test_1.ktr /pentaho-di/xbi_repo
+
+COPY mytest.kjb /pentaho-di/xbi_repo
+
+CMD ["/bin/sh", "/pentaho-di/carte/carte-start.sh"]
