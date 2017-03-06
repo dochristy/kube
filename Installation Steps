@@ -72,6 +72,47 @@ $ vagrant plugin install vagrant-scp
 $ vagrant scp test.txt ce2e695:/home/ubuntu/pentaho
 
 
+apiVersion: "v1"
+kind: Pod
+metadata:
+  name: carte-all-1
+  labels:
+    name: carte-all-1
+    app: demo
+spec:
+  containers:
+    - name: carte-master
+      image: tobilg/pentaho-di
+      ports:
+        - containerPort: 8080
+          name: carte-master
+          protocol: TCP
+    - name: carte-worker-1
+      image: tobilg/pentaho-di
+      ports:
+        - containerPort: 8282
+          name: carte-worker-1
+          protocol: TCP
 
+		  
+		  
+		  
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: carte-all
+spec:
+  selector:
+    app: demo
+  ports:
+  - port: 8080
+    name: carte-master
+    targetPort: 8080
+  - port: 8282
+    name: carte-worker-1
+    targetPort: 8282
+  type: LoadBalancer
 
 
