@@ -57,3 +57,21 @@ COPY test_1.ktr /pentaho-di/xbi_repo
 COPY mytest.kjb /pentaho-di/xbi_repo
 
 CMD ["/bin/sh", "/pentaho-di/carte/carte-start.sh"]
+
+$ cd "C:\Program Files\Oracle\VirtualBox"
+$ vagrant global-status
+
+
+id       name    provider   state   directory
+------------------------------------------------------------------------
+d1d92b3  default virtualbox running C:/temp
+ce2e695  default virtualbox running C:/cygwin64/home/cdorai200/ubuntu
+66aeec6  default virtualbox running C:/cygwin64/home/cdorai200
+
+$ vagrant plugin install vagrant-scp
+$ vagrant scp test.txt ce2e695:/home/ubuntu/pentaho
+
+
+
+
+
